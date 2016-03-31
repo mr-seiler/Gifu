@@ -4,15 +4,23 @@ import UIKit
 public class AnimatableImageView: UIImageView {
   /// An `Animator` instance that holds the frames of a specific image in memory.
   var animator: Animator?
+
+  /// A flag to avoid invalidating the displayLink on deinit if it was never created
+  private var displayLinkInitialized: Bool = false
+
   /// A display link that keeps calling the `updateFrame` method on every screen refresh.
-  lazy var displayLink: CADisplayLink = CADisplayLink(target: self, selector: #selector(updateFrame))
+  lazy var displayLink: CADisplayLink = {
+    let link = CADisplayLink(target: self, selector: #selector(updateFrame))
+    self.displayLinkInitialized = true
+    return link
+  }()
 
   /// The size of the frame cache.
   public var framePreloadCount = 50
 
   /// Specifies whether the GIF frames should be pre-scaled to save memory. Default is **true**.
   public var needsPrescaling = true
-  
+
   /// A computed property that returns whether the image view is animating.
   public var isAnimatingGIF: Bool {
     return !displayLink.paused
@@ -91,7 +99,9 @@ public class AnimatableImageView: UIImageView {
 
   /// Invalidate the displayLink so it releases this object.
   deinit {
-    displayLink.invalidate()
+    if displayLinkInitialized {
+      displayLink.invalidate()
+    }
   }
 
   /// Attaches the display link.
