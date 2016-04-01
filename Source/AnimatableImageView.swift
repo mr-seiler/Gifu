@@ -8,7 +8,7 @@ public class AnimatableImageView: UIImageView {
   lazy var displayLink: CADisplayLink = CADisplayLink(target: self, selector: #selector(updateFrame))
 
   /// The size of the frame cache.
-  public var framePreloadCount = 50
+  public var framePreloadCount = 150
 
   /// Specifies whether the GIF frames should be pre-scaled to save memory. Default is **true**.
   public var needsPrescaling = true
