@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Gifu"
-  s.version = "1.1.1-hyrax"
+  s.version = "1.1.2-hyrax"
   s.summary = "Highly performant animated GIF support for iOS "
   s.homepage = "https://github.com/kaishin/gifu"
   s.social_media_url = "http://twitter.com/kaishin"
